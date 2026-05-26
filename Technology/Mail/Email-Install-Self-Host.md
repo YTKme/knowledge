@@ -58,7 +58,7 @@
     - TTL: `Auto`
     - Content: `"v=spf1 ip4:YOUR_SERVER_IP ip6:YOUR_SERVER_IP -all"`
 - Add a [TXT record](https://en.wikipedia.org/wiki/TXT_record) for the
-  mail server. (For security)
+  mail server. (For security, leave `rua=mailto:YOUR_EMAIL` for now)
     - Type: `TXT`
     - Name: `_dmarc`
     - TTL: `Auto`
