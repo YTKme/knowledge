@@ -7,6 +7,11 @@
 - [Configure](#configure)
   - [Cloudflare](#cloudflare)
 - [Reference](#reference)
+  - [General](#general)
+  - [Authentication](#authentication)
+    - [Sender Policy Framework (SPF)](#sender-policy-framework-spf)
+    - [DomainKeys Identified Mail (DKIM)](#domainkeys-identified-mail-dkim)
+    - [DMARC](#dmarc)
 
 ## Install
 
@@ -33,38 +38,23 @@
 - Add a [CNAME record](https://en.wikipedia.org/wiki/CNAME_record) alias
   for the mail server.
     - Type: `CNAME`
-    - Name: `smtp` (`autoconfig`)
-    - Target: `mail.domain.xyz`
-- Add a [MX record](https://en.wikipedia.org/wiki/MX_record) for the
-  mail exchanger.
-    - Type: `MX`
-    - Name: `@`
-    - Mail server: `mail.domain.xyz`
-    - TTL: `Auto`
-    - Priority: `10`
-- Add a [SRV record](https://en.wikipedia.org/wiki/SRV_record) for the
-  mail server.
-    - Type: `SRV`
-    - Name: `_autodiscover._tcp`
-    - Priority: `0`
-    - Weight: `5`
-    - TTL: `Auto`
-    - Port: `443`
-    - Target: `mail.domain.xyz`
-- Add a [TXT record](https://en.wikipedia.org/wiki/TXT_record) for the
-  mail server. (The `ip6:YOUR_SERVER_IP` is optional)
-    - Type: `TXT`
-    - Name: `@`
-    - TTL: `Auto`
-    - Content: `"v=spf1 ip4:YOUR_SERVER_IP ip6:YOUR_SERVER_IP -all"`
-- Add a [TXT record](https://en.wikipedia.org/wiki/TXT_record) for the
-  mail server. (For security, leave `rua=mailto:YOUR_EMAIL` for now)
-    - Type: `TXT`
-    - Name: `_dmarc`
-    - TTL: `Auto`
-    - Content: `"v=DMARC1; p=quarantine; adkim=s; aspf=s; rua=mailto:YOUR_EMAIL"`
+    - Name: `smtp` (`autodiscover`)
+    - Target: `mail.example.com`
 
 ## Reference
 
+### General
+
 - [How to Host Your Own Email Server (for free)](https://www.youtube.com/watch?v=8G93NVWkXZk)
-- [Mailcow Setup Guide 2026 – Self Host a Secure Mailserver with Docker & Nginx on Linux!](https://www.youtube.com/watch?v=rylCQdx3di8)
+- [Mailcow Setup Guide 2025 – Self Host a Secure Mailserver with Docker & Nginx on Linux!](https://www.youtube.com/watch?v=rylCQdx3di8)
+- [NEW EMAIL REQUIREMENTS - Watch if you have your own domain (SPF, DKIM, and DMARC)](https://www.youtube.com/watch?v=s3Qg0Yo7KlY)
+
+### Authentication
+
+#### Sender Policy Framework (SPF)
+
+- [Sender Policy Framework](https://en.wikipedia.org/wiki/Sender_Policy_Framework)
+- [About SPF records](https://support.google.com/a/answer/10683907)
+- [Set up SPF to identify valid email sources for your custom cloud domains](https://learn.microsoft.com/en-us/defender-office-365/email-authentication-spf-configure)
+
+#### DomainKeys Identified Mail (DKIM)
