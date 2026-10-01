@@ -67,6 +67,10 @@
     "editor.formatOnSave": true,
     "editor.tabSize": 2
   },
+  "[astro]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
   "[python]": {
     "editor.codeActionsOnSave": {
       "source.fixAll.ruff": "explicit",
