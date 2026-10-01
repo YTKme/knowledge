@@ -62,7 +62,46 @@ PYTHON_CONFIGURE_OPTION=(
 
 ### macOS ARM64
 
+#### Python 3.11
+
+```shell
+PYTHON_VERSION=3.11.16
+OPENSSL_PREFIX="$(brew --prefix openssl@3)"
+XZ_PREFIX="$(brew --prefix xz)"
+TCLTK_PREFIX="$(brew --prefix tcl-tk)"
+PYTHON_CONFIGURE_OPTION=(
+    # General Option
+    # --disable-gil
+    # C Compiler Option
+    # CFLAGS=-"I`brew --prefix`/include/OpenEXR/ -I`brew --prefix`/include/Imath/ -std=c++11"
+    # Linker Option
+    # LDFLAGS=-"L`brew --prefix`/lib/"
+    # Install Option
+    --prefix="/opt/python/${PYTHON_VERSION}/"
+    --with-ensurepip=install
+    # Performance Option
+    --enable-optimizations
+    --with-lto
+    # Linker Option
+    --enable-shared
+    # Library Option
+    --with-openssl="${OPENSSL_PREFIX}"
+    # --with-openssl-rpath=auto # Potential SSL Module Error
+    --with-openssl-rpath=no
+)
+LDFLAGS="-L${OPENSSL_PREFIX}/lib -Wl,-rpath,${OPENSSL_PREFIX}/lib -L${XZ_PREFIX}/lib -L${TCLTK_PREFIX}/lib" \
+CPPFLAGS="-I${OPENSSL_PREFIX}/include -I${XZ_PREFIX}/include -I${TCLTK_PREFIX}/include" \
+PKG_CONFIG_PATH="${OPENSSL_PREFIX}/lib/pkgconfig:${XZ_PREFIX}/lib/pkgconfig:${TCLTK_PREFIX}/lib/pkgconfig" \
+GDBM_CFLAGS="-I$(brew --prefix gdbm)/include" \
+GDBM_LIBS="-L$(brew --prefix gdbm)/lib -lgdbm" \
+./configure "${PYTHON_CONFIGURE_OPTION[@]}"
+```
+
 #### Python 3.13
+
+```shell
+brew install pkg-config
+```
 
 ```bash
 PYTHON_VERSION=3.13.0
@@ -76,6 +115,7 @@ PYTHON_CONFIGURE_OPTION=(
     # Install Option
     --prefix="/opt/python/${PYTHON_VERSION}/"
     --with-ensurepip=install
+    --with-pkg-config=yes
     # Performance Option
     --enable-optimizations
     --with-lto
