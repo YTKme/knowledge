@@ -35,9 +35,36 @@ sudo apt-get install build-essential gdb lcov pkg-config \
     lzma lzma-dev tk-dev uuid-dev zlib1g-dev
 ```
 
+```shell
+sudo apt-get install build-essential gdb lcov pkg-config \
+    libbz2-dev libffi-dev libgdbm-dev libgdbm-compat-dev liblzma-dev \
+    libncurses-dev libreadline-dev libsqlite3-dev libssl-dev \
+    lzma tk-dev uuid-dev zlib1g-dev
+```
+
 ## Configure
 
 ### Linux
+
+```bash
+PYTHON_VERSION=3.11.0
+PYTHON_CONFIGURE_OPTION=(
+    # General Option
+    # C Compiler Option
+    # CFLAGS=-"-std=c++11"
+    # Linker Option
+    LDFLAGS="-Wl,-rpath=/opt/python/${PYTHON_VERSION}/lib/"
+    # Install Option
+    --prefix="/opt/python/${PYTHON_VERSION}/"
+    --with-ensurepip=install
+    # Performance Option
+    --enable-optimizations
+    --with-lto=full
+    # Linker Option
+    --enable-shared
+)
+./configure "${PYTHON_CONFIGURE_OPTION[@]}"
+```
 
 ```bash
 PYTHON_VERSION=3.13.0
