@@ -143,6 +143,24 @@ GDBM_LIBS="-L${GDBM_PREFIX}/lib -lgdbm" \
 ```
 
 ```shell
+PYTHON_VERSION="3.13.18"
+
+OPENSSL_PREFIX="$(brew --prefix openssl@3)"
+GDBM_PREFIX="$(brew --prefix gdbm)"
+
+GDBM_CFLAGS="-I${GDBM_PREFIX}/include" \
+GDBM_LIBS="-L${GDBM_PREFIX}/lib -lgdbm" \
+./configure \
+    --prefix="/opt/python/${PYTHON_VERSION}/" \
+    --with-ensurepip=install \
+    --with-pkg-config=yes \
+    --enable-optimizations \
+    --with-lto \
+    --with-openssl="${OPENSSL_PREFIX}" \
+    --with-openssl-rpath=auto
+```
+
+```shell
 # Require
 # - openssl@3
 # - zstd
