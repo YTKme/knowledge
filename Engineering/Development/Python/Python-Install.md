@@ -80,7 +80,7 @@ PYTHON_CONFIGURE_OPTION=(
     --enable-optimizations
     --with-lto
     # Linker Option
-    --enable-shared
+    # --enable-shared
     # Library Option
     --with-openssl="$(brew --prefix openssl@3)"
     --with-openssl-rpath=auto # Potential SSL Module Error
@@ -88,6 +88,65 @@ PYTHON_CONFIGURE_OPTION=(
 GDBM_CFLAGS="-I$(brew --prefix gdbm)/include" \
 GDBM_LIBS="-L$(brew --prefix gdbm)/lib -lgdbm" \
 ./configure "${PYTHON_CONFIGURE_OPTION[@]}"
+```
+
+```shell
+# Require
+# - tcl-tk@8
+# - openssl@3
+
+PYTHON_VERSION="3.13.16"
+
+TCLTK_PREFIX="$(brew --prefix tcl-tk@8)"
+OPENSSL_PREFIX="$(brew --prefix openssl@3)"
+GDBM_PREFIX="$(brew --prefix gdbm)"
+
+TCLTK_CFLAGS="-I${TCLTK_PREFIX}/include/tcl-tk" \
+TCLTK_LIBS="-L${TCLTK_PREFIX}/lib -Wl,-rpath,${TCLTK_PREFIX}/lib -ltk8.6 -ltcl8.6" \
+GDBM_CFLAGS="-I${GDBM_PREFIX}/include" \
+GDBM_LIBS="-L${GDBM_PREFIX}/lib -lgdbm" \
+./configure \
+    --prefix="/opt/python/${PYTHON_VERSION}/" \
+    --with-ensurepip=install \
+    --with-pkg-config=yes \
+    --enable-optimizations \
+    --with-lto \
+    --with-openssl="${OPENSSL_PREFIX}" \
+    --with-openssl-rpath=auto
+```
+
+```shell
+# Require
+# - openssl@3
+# - zstd
+
+PYTHON_VERSION="3.14.8"
+
+TCLTK_PREFIX="$(brew --prefix tcl-tk)"
+TOMMATH_PREFIX="$(brew --prefix libtommath)"
+OPENSSL_PREFIX="$(brew --prefix openssl@3)"
+GDBM_PREFIX="$(brew --prefix gdbm)"
+
+TCLTK_CFLAGS="-I${TCLTK_PREFIX}/include/tcl-tk \
+  -I${TOMMATH_PREFIX}/include \
+  -DTCL_WITH_EXTERNAL_TOMMATH" \
+TCLTK_LIBS="-L${TCLTK_PREFIX}/lib \
+  -L${TOMMATH_PREFIX}/lib \
+  -Wl,-rpath,${TCLTK_PREFIX}/lib \
+  -Wl,-rpath,${TOMMATH_PREFIX}/lib \
+  -ltcl9.1 \
+  -ltcl9tk9.1 \
+  -ltommath" \
+GDBM_CFLAGS="-I${GDBM_PREFIX}/include" \
+GDBM_LIBS="-L${GDBM_PREFIX}/lib -lgdbm" \
+./configure \
+    --prefix="/opt/python/${PYTHON_VERSION}/" \
+    --with-ensurepip=install \
+    --with-pkg-config=yes \
+    --enable-optimizations \
+    --with-lto \
+    --with-openssl="${OPENSSL_PREFIX}" \
+    --with-openssl-rpath=auto
 ```
 
 #### Python 3.8 through 3.10
